@@ -1,3 +1,24 @@
 <template>
-  <h1>${message}</h1>
+  <require from="./app.css"></require>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Aurelia/Bootstrap Movie List</h3>
+    </div>
+    <div class="panel-body">
+      <div class="btn-group">
+        <label class="btn btn-default ${state === 0 ? 'active' : ''}" click.trigger="setState(0)">Top 50 movies</label>
+        <label class="btn btn-default ${state === 1 ? 'active' : ''}" click.trigger="setState(1)">My Favorites <span class="badge"></span></label>
+      </div>
+
+      <top50 if.bind="state === 0">
+
+        <pager data-dataset=""></pager>
+      </top50>
+      
+      <favorites if.bind="state === 1">
+        Fav
+      </favorites>
+
+    </div>
+  </div>
 </template>
