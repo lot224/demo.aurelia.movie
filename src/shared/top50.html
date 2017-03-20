@@ -1,0 +1,49 @@
+<template>
+  <require from="./data-pager"></require>
+
+  <div if.bind="dataset.view.length === 0">
+    Loading Movies...
+  </div>
+
+  <div if.bind="dataset.view.length > 0">
+    <data-pager dataset.bind="dataset"></data-pager>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <td></td>
+            <td click.trigger="sortColumn('title')">Title</td>
+            <td click.trigger="sortColumn('director')">Director</td>
+            <td click.trigger="sortColumn('price')">Price</td>
+            <td click.trigger="sortColumn('rent')">Rent</td>
+            <td click.trigger="sortColumn('release')">Release Date</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr repeat.for="item of dataset.view" click.trigger="selectItem(item)">
+            <td><img style="width:40px;" data-url="${dataset.sorters.image(item)}" /></td>
+            <td>${dataset.sorters.title(item)}</td>
+            <td>${dataset.sorters.director(item)}</td>
+            <td>${dataset.sorters.price(item)}</td>
+            <td>${dataset.sorters.rent(item)}</td>
+            <td>${dataset.sorters.release(item)}</td>
+            <td>
+              <label class="btn btn-default" click.trigger="toggleFavorite(item)" class="${item.isFavorite ? 'active':''}">
+                <span class="glyphicon glyphicon-star"></span>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+
+
+    </div>
+  </div>
+
+
+  <div repeat.for="item of dataset.view">
+    ${item['im:name'].label}
+  </div>
+
+</template>

@@ -1,0 +1,21 @@
+<template>
+  <nav>
+    <ul class="pagination">
+      <li click.trigger="prevPage()">
+        <a href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li repeat.for="page of pages" click.trigger="setPage($index + 1)" class="${($index + 1) === dataset.page ? 'active' : ''}">
+        <a href="#">
+          ${$index + 1}
+        </a>
+      </li>
+      <li click.trigger="nextPage()">
+        <a href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</template>

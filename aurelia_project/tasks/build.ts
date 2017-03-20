@@ -1,5 +1,5 @@
 import * as gulp from 'gulp';
-import {fontAwesomeStyles, fontAwesomeFonts, bootstrap} from './assets';
+import { fontAwesomeStyles, fontAwesomeFonts, bootstrap, bootstrapFonts} from './assets';
 import transpile from './transpile';
 import processMarkup from './process-markup';
 import processCSS from './process-css';
@@ -16,7 +16,8 @@ export default gulp.series(
     copyFiles,
     fontAwesomeStyles,
     fontAwesomeFonts,
-    bootstrap
+    bootstrap,
+    bootstrapFonts
   ),
   writeBundles
 );

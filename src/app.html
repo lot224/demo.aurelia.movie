@@ -1,4 +1,6 @@
 <template>
+  <require from="./shared/top50"></require>
+  <require from="./shared/favorites.html"></require>
   <require from="./app.css"></require>
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -10,15 +12,8 @@
         <label class="btn btn-default ${state === 1 ? 'active' : ''}" click.trigger="setState(1)">My Favorites <span class="badge"></span></label>
       </div>
 
-      <top50 if.bind="state === 0">
-
-        <pager data-dataset=""></pager>
-      </top50>
-      
-      <favorites if.bind="state === 1">
-        Fav
-      </favorites>
-
+      <top50 dataset.bind="ds" if.bind="state === 0"></top50>
+      <favorites dataset.bind="ds" if.bind="state === 1"></favorites>
     </div>
   </div>
 </template>

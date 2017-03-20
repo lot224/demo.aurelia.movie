@@ -27,3 +27,8 @@ export function bootstrap() {
         .pipe(gulp.src('node_modules\\bootstrap\\dist\\css\\*.min.css'))
         .pipe(build.bundle());
 };
+
+export function bootstrapFonts() {
+    return gulp.src('node_modules\\bootstrap\\fonts\\*')
+        .pipe(gulp.dest('fonts'))
+}

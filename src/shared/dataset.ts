@@ -1,6 +1,6 @@
 
 
-enum sortOrder {
+export enum sortOrder {
   ascending = 0,
   descending = 1
 }
@@ -13,7 +13,7 @@ export interface datasetOptions {
 }
 
 export default class dataset {
-  private _data:object[] = [];
+  private _data: object[] = [];
   private _page: number = 1;
   private _pageSize: number = 5;
   private _sorters: object = {};
@@ -23,7 +23,7 @@ export default class dataset {
 
   constructor(options: datasetOptions) {
 
-    
+
 
     if (options) {
 
@@ -33,7 +33,7 @@ export default class dataset {
       this._sorters = options.sorters || this._sorters;
       this.sortField = options.sortField || this._sortField;
       this.sortOrder = options.sortOrder || this._sortOrder;
-    };  
+    };
   }
 
   // Properties
@@ -101,13 +101,13 @@ export default class dataset {
   }
 
   // Functions
-  load(data) {
+  load(data): void {
     this.reset();
     this._data = data;
     this.render();
   }
 
-  render() {
+  render(): void {
     var nResult: Object[] = [];
     var page: number = this.page - 1; // Zero Base;
     var start: number = page * this.pageSize;
@@ -129,49 +129,48 @@ export default class dataset {
     this._view = nResult;
   }
 
-  reset() {
+  reset(): void {
     this._data = [];
     this._page = 1;
     this._view = [];
   }
 
-  sort(field: string, order: sortOrder) {
+  sort(field: string, order: sortOrder): void {
     if (!field) return;
+    var ds: dataset = this;
 
     this.sortField = field; // Check to see if this field exists?
-
     this.sortOrder = order === sortOrder.descending ? sortOrder.descending : sortOrder.ascending;
 
+    var asc = function (a: any, b: any): number {
+      var x: any, y: any, xx: any, yy: any;
+
+      if (ds.sorters[ds.sortField]) {
+        xx = ds.sorters[ds.sortField](a);
+        yy = ds.sorters[ds.sortField](b);
+
+        x = xx ? xx.toLowerCase ? xx.toLowerCase() : xx : "";
+        y = yy ? yy.toLowerCase ? yy.toLowerCase() : yy : "";
+      } else {
+        x = a[ds.sortField] ? a[ds.sortField].toLowerCase ? a[ds.sortField].toLowerCase() : a[ds.sortField] : "";
+        y = b[ds.sortField] ? b[ds.sortField].toLowerCase ? b[ds.sortField].toLowerCase() : b[ds.sortField] : "";
+      }
+
+      return x < y ? -1 : x > y ? 1 : 0;
+    }
+
+    var desc = function (a: any, b: any): number {
+      return asc(b, a);
+    }
+
     if (order == sortOrder.descending)
-      this._data.sort(this.sortDecending);
+      this._data.sort(desc);
     else
-      this._data.sort(this.sortAscending);
+      this._data.sort(asc);
 
     if (this.page === 1)
       this.render();
     else
       this.page = 1;
-  }
-
-  // Private Functions  
-  private sortAscending(a: any, b: any) {
-    var x: any, y: any, xx: any, yy: any;
-
-    if (this.sorters[this.sortField]) {
-      xx = this.sorters[this.sortField](a);
-      yy = this.sorters[this.sortField](b);
-
-      x = xx ? xx.toLowerCase ? xx.toLowerCase() : xx : "";
-      y = yy ? yy.toLowerCase ? yy.toLowerCase() : yy : "";
-    } else {
-      x = a[this.sortField] ? a[this.sortField].toLowerCase ? a[this.sortField].toLowerCase() : a[this.sortField] : "";
-      y = b[this.sortField] ? b[this.sortField].toLowerCase ? b[this.sortField].toLowerCase() : b[this.sortField] : "";
-    }
-
-    return x < y ? -1 : x > y ? 1 : 0;
-  }
-
-  private sortDecending(a, b) {
-    return this.sortAscending(b, a);
   }
 }
