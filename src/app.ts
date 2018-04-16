@@ -1,15 +1,18 @@
 import { inject } from 'aurelia-framework';
 import dataset from './shared/dataset';
 import { sortOrder } from './shared/dataset';
+import { localStorage } from './shared/storage'
 import iTunes from './api/iTunes';
 
-@inject(iTunes)
+@inject(iTunes, localStorage)  
 export class App {
   message = 'Hello World!';
 
+  storage: localStorage;  
   ds: dataset;
 
-  constructor(iTunes: iTunes) {
+  constructor(iTunes: iTunes, storage: localStorage) {
+    
     this.ds = new dataset({
       pageSize: 5,
       sorters: {
@@ -45,8 +48,13 @@ export class App {
 
   setState(value): void {
     this.state = value;
-
-
   }
+
+  favoriteCount(): number {
+    var items: any = this.storage.get('items');
+
+    return items ? items.length : 0;    
+
+}
 
 }

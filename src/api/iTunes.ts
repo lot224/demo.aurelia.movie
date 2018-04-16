@@ -1,15 +1,15 @@
-import { autoinject } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
 
-@autoinject
+@inject(HttpClient)
 export default class iTunes {
 
   private url: string = 'https://itunes.apple.com/us/rss/topmovies/limit=50/json';
 
   private _movies: object[] = null;
-  
-  constructor(private http: HttpClient) {
-
+  private _http: HttpClient;
+  constructor(HttpClient) {
+    this._http = HttpClient;
   }
 
   get movies(): object[] {
